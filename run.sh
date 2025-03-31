@@ -24,6 +24,9 @@ sleep 2
 # USB selection
 echo "First, I need the name of the USB you want the installer on. I would format the USB for you, but I currently can't."
 echo "I'll launch Disk utility for you in a second. Format your USB as \"MacOS extended (journaled)\" and come back here"
+echo "###########################################################################################"
+echo "# THIS WILL DELETE ALL OF THE DATA ON THE USB! BACK UP THE IMPORTANT THINGS ON THE DRIVE! #"
+echo "###########################################################################################"
 sleep 2
 open /System/Applications/Utilities/Disk\ Utility.app
 
@@ -102,6 +105,7 @@ while true; do
         if [ $? -eq 0 ]; then
             echo "Download completed successfully."
             DMGDir="./osx.dmg"
+            break
         else
             echo "Download failed.  Check that your cURL installation is correct and try again."
             exit 1
