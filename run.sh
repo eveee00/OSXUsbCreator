@@ -23,7 +23,7 @@ sleep 2
 
 # USB selection
 echo "First, I need the name of the USB you want the installer on. I would format the USB for you, but I currently can't."
-echo "I'll launch Disk utility for you in a second. Format your USB as  \"MacOS extended (journaled)\" and come back here"
+echo "I'll launch Disk utility for you in a second. Format your USB as \"MacOS extended (journaled)\" and come back here"
 sleep 2
 open /System/Applications/Utilities/Disk\ Utility.app
 
@@ -171,7 +171,7 @@ sleep 1
 sudo asr restore --source ../../dmg/Installer.dmg --target /Volumes/KEY --noprompt --noverify --erase
 
 echo "Detaching Volumes..."
-hdiutil detach /Volumes/Mac\ OS\ X\ Base\ System
+hdiutil detach /Volumes/Mac\ OS\ X\ Base\ System -force
 hdiutil detach /Volumes/osx
 
 echo "Deleting temporary files..."
