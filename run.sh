@@ -12,6 +12,9 @@ yosemite="http://updates-http.cdn-apple.com/2019/cert/061-41343-20191023-02465f9
 elCapitan="http://updates-http.cdn-apple.com/2019/cert/061-41424-20191024-218af9ec-cf50-4516-9011-228c78eda3d2/InstallMacOSX.dmg"
 sierra="http://updates-http.cdn-apple.com/2019/cert/061-39476-20191023-48f365f4-0015-4c41-9f44-39d3d2aca067/InstallOS.dmg"
 # ...Anything higher than that goes to the app store. defo need to see if I can still just curl it down
+# Also this is the default pkgdir, change it if you dare
+pkgDir="./osx.pkg"
+
 
 echo "Welcome to the legacy OSX USB Creator!"
 echo "Commands by u/FarConcentrate3824 on reddit, everything else by eveee00 on github"
@@ -107,4 +110,63 @@ done
 
 # Create USB
 echo "Creating installer on drive $usbName"
-pkgutil --expand ~/Desktop/InstallMacOSX.pkg ./Installer
+echo "Attaching DMG..."
+hidutil attach $DMGDir
+echo "Copying PKG..."
+cp /Volumes/Install\ Mac\ OS\ X/InstallMacOSX.pkg $pkgDir
+
+echo "Expanding the PKG file"
+echo "This may take some time..."
+pkgutil --expand $pkgDir ./Installer
+echo "Finished expanding PKG"
+
+echo "Going into the PKG..."
+cd ./Installer/InstallMacOSX.pkg
+
+echo "Extracting Payload..."
+sleep 2
+tar -xvf Payload
+
+echo "Copying ESD..."
+mkdir ../../esd
+mv InstallESD.dmg ../../esd
+
+echo "Building installer..."
+sleep 2
+
+hdiutil attach ../../esd/InstallESD.dmg -noverify -nobrowse -mountpoint /Volumes/install_app
+hdiutil convert /Volumes/install_app/BaseSystem.dmg -format UDSP -o /tmp/Installer
+hdiutil resize -size 8g /tmp/Installer.sparseimage
+hdiutil attach /tmp/Installer.sparseimage -noverify -nobrowse -mountpoint /Volumes/install_build
+rm -r /Volumes/install_build/System/Installation/Packages
+cp -av /Volumes/install_app/Packages /Volumes/install_build/System/Installation/
+cp -av /Volumes/install_app/BaseSystem.chunklist /Volumes/install_build
+cp -av /Volumes/install_app/BaseSystem.dmg /Volumes/install_build
+
+echo "Detaching Volumes..."
+hdiutil detach /Volumes/install_app
+hdiutil detach /Volumes/install_build
+
+echo "Resizing and converting SparseImage"
+hdiutil resize -size `hdiutil resize -limits /tmp/Installer.sparseimage | tail -n 1 | awk '{print $ 1}' `b /tmp/Installer.sparseimage
+hdiutil convert /tmp/Installer.sparseimage -format UDZO -o /tmp/Installer
+
+echo "Moving installer..."
+mkdir ../../dmg
+mv /tmp/Installer.dmg ../../dmg
+
+echo "Starting installation on $usbName"
+
+sleep 1
+echo "3"
+sleep 1
+echo "2"
+sleep 1
+echo "1"
+sleep 1
+
+sudo asr restore --source ../../dmg/Installer.dmg --target /Volumes/KEY --noprompt --noverify --erase
+
+echo "=========================="
+echo "Done :3"
+echo "The Installer should be on your desktop. Check the output for any errors."
