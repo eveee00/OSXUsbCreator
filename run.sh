@@ -113,9 +113,9 @@ done
 # Create USB
 echo "Creating installer on drive $usbName"
 echo "Attaching DMG..."
-hidutil attach $DMGDir
+hdiutil attach $DMGDir -noverify -nobrowse -mountpoint /Volumes/osx
 echo "Copying PKG..."
-cp /Volumes/Install\ Mac\ OS\ X/InstallMacOSX.pkg $pkgDir
+cp /Volumes/osx/InstallMacOSX.pkg $pkgDir
 
 echo "Expanding the PKG file"
 echo "This may take some time..."
