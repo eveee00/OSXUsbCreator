@@ -21,8 +21,9 @@ echo "Commands by u/FarConcentrate3824 on reddit, everything else by eveee00 on 
 echo "======================================"
 
 # USB selection
-echo "First, I need the name of the USB you want the installer on. I would format the USB for you, but currently I cant."
-echo "I will launch Disk utility for you in a second. Format your USB as  \"MacOS extended (journaled)\" and come back here"
+echo "First, I need the name of the USB you want the installer on. I would format the USB for you, but I currently can't."
+echo "I'll launch Disk utility for you in a second. Format your USB as  \"MacOS extended (journaled)\" and come back here"
+sleep 2
 open /System/Applications/Utilities/Disk\ Utility.app
 
 while true; do
@@ -59,6 +60,7 @@ while true; do
         # Sets the DMG path to extract later
         echo "Drag the installer DMG into this window"
         read DMGDir
+        break
     
     elif [[ "$installerDlYesNo" == "N" || "$installerDlYesNo" == "n" || "$installerDlYesNo" == "No" || "$installerDlYesNo" == "no" ]]; then
         # Version picker
