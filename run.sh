@@ -56,7 +56,7 @@ done
 
 echo "Alright, let's pick the OSX version you want to install."
 while true; do
-    echo "Do you have a OSX 10.7-10.12 Installer downloaded (Yy/Nn)?"
+    echo "Do you have a OSX 10.7-10.12 installer downloaded (Yy/Nn)?"
     read installerDlYesNo
 
     # Ask if user already has an installer
