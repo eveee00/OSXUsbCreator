@@ -19,6 +19,7 @@ pkgDir="./osx.pkg"
 echo "Welcome to the legacy OSX USB Creator!"
 echo "Commands by u/FarConcentrate3824 on reddit, everything else by eveee00 on github"
 echo "======================================"
+sleep 2
 
 # USB selection
 echo "First, I need the name of the USB you want the installer on. I would format the USB for you, but I currently can't."
@@ -157,7 +158,7 @@ echo "Moving installer..."
 mkdir ../../dmg
 mv /tmp/Installer.dmg ../../dmg
 
-echo "Starting installation on $usbName"
+echo "Starting installation on $usbName. Expect a password/touchID prompt."
 
 sleep 1
 echo "3"
@@ -169,6 +170,19 @@ sleep 1
 
 sudo asr restore --source ../../dmg/Installer.dmg --target /Volumes/KEY --noprompt --noverify --erase
 
+echo "Detaching Volumes..."
+hdiutil detach /Volumes/Mac\ OS\ X\ Base\ System
+hdiutil detach /Volumes/osx
+
+echo "Deleting temporary files..."
+cd ../..
+rm -r ./dmg
+rm -r ./esd
+rm -r ./Installer
+rm ./osx.pkg
+
+echo "Please delete the installer DMG manually. I will not delete it in case you need it in the future."
+
 echo "=========================="
 echo "Done :3"
-echo "The Installer should be on your desktop. Check the output for any errors."
+echo "The Installer should ready. I ejected the USB for you. Check the output for any errors."
