@@ -1,6 +1,4 @@
-# OSXUsbCreator
-A simple tool to create a bootable MacOS installer.
+# Scripts
+Just some scrips I made.
 
-### Features
-- Create OSX 10.7-10.12 installer
-- Auto-download DMG
+- [OSXUSBCreator](https://github.com/eveee00/scripts/blob/main/osx.sh) | Shell script to download and create a OSX 10.7-10.12 installer.
