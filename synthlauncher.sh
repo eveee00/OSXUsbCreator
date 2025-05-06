@@ -31,5 +31,5 @@ if [ -d $SF_DIR ]; then
 fi
 echo "currently playing: $1"
 echo "using SoundFont $sf"
-fluidsynth -q -d $sf $1 # > /dev/null 2>&1
+fluidsynth -q -d $sf "$1" # > /dev/null 2>&1
 # Uncomment this above to mute fluidsynth output
