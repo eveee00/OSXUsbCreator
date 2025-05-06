@@ -1,5 +1,5 @@
 #!/bin/bash
-export SF_DIR=/home/max/sf
+export SF_DIR=/home/$(whoami)/sf
 if [ $# -eq 0 ]; then
     echo "Usage: $0 <MIDI file>"
     echo "Example: $0 song.mid"
